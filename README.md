@@ -1,46 +1,39 @@
-\# 🧠 ASCII-GPT: Investigación sobre Auto-Corrección y Generación Estructural
+# 🧠 ASCII-GPT: Self-Correction and Structural Generation Research
 
+> An empirical study on training Small Language Models (GPT-2) to understand visual structures (ASCII Art) through iterative refinement assisted by AI agents.
 
+## 📊 Project Abstract
+This project documents the evolution of a language model trained to "draw" with characters. The process was driven 100% by prompt engineering and collaboration between multiple AI agents to correct hallucination and coding errors.
 
-> Un estudio empírico sobre cómo entrenar LLMs pequeños (GPT-2) para entender estructuras visuales (ASCII Art) mediante refinamiento iterativo asistido por IA.
+- **Development Time:** 48 hours.
+- **Hardware:** Google Colab (T4) -> Kaggle (T4 x2).
+- **Architecture:** GPT-2 Small (Fine-tuned).
 
+## 🧬 Model Evolution Log
 
+### 👶 Phase 1-2: Texture Learning
+- **Dataset:** Small Travian dataset (Manual curation).
+- **Outcome:** The model learned basic textures but lacked geometry.
+- **Failure Mode:** Incoherent shapes.
 
-\## 📊 Resumen del Proyecto
+### 🕷️ Phase 3: The "White Canvas" Problem
+- **Dataset:** Massive scraping from `asciiart.eu`.
+- **Outcome:** Model overfitted to whitespace (the most common token).
+- **Failure Mode:** Empty outputs due to greedy decoding.
 
-Este proyecto documenta la evolución de un modelo de lenguaje entrenado para "dibujar" con caracteres. El proceso fue dirigido 100% mediante ingeniería de prompts y colaboración entre múltiples agentes de IA para corregir errores de alucinación y código.
+### 💪 Phase 4-5: Hardcore Training (Current Stable)
+- **Strategy:** High-epoch training with low learning rate.
+- **Outcome:** Perfect structure, replication of complex shapes (castles, swords).
+- **Interesting Artifact:** The model learned to replicate famous ASCII artist signatures (e.g., `jgs`, `vk`).
 
+### 🧼 Phase 6: Data Sanitization (Current)
+- **Action:** Developed a Python Regex script to remove 2,000+ artist signatures from the training data.
+- **Goal:** Reduce hallucinations and force the model to close visual structures instead of writing text.
 
+## 📂 Repository Structure
+- `/docs`: Daily logs and iteration contexts (Research Diaries).
+- `/scripts`: Custom Python tools for data mining and cleaning.
+- `/notebooks`: Reproducible training code (Jupyter).
 
-\*\*Tiempo de desarrollo:\*\* 48 horas.
-
-\*\*Hardware:\*\* Google Colab (T4) -> Kaggle (T4 x2).
-
-
-
-\## 🧬 Evolución de los Modelos
-
-\- \*\*V1-V2:\*\* Aprendizaje de texturas (Travian Dataset). \*Fallo: Falta de geometría.\*
-
-\- \*\*V3:\*\* Expansión de dataset (Scraping masivo). \*Fallo: Overfitting al espacio en blanco.\*
-
-\- \*\*V4-V5:\*\* Ajuste fino (Hardcore Training). \*Logro: Estructura perfecta, firmas de autores replicadas.\*
-
-\- \*\*V6 (Actual):\*\* Limpieza de datos y eliminación de sesgos (Firmas).
-
-
-
-\## 📂 Estructura del Repositorio
-
-\- `/docs`: Bitácoras diarias y contextos de iteración (Diarios de Investigación).
-
-\- `/scripts`: Herramientas Python desarrolladas para minería y limpieza de datos.
-
-\- `/notebooks`: Código de entrenamiento reproducible.
-
-
-
-\## 💾 Descarga de Modelos
-
-Los modelos entrenados (.zip) están disponibles en la sección \[Releases](https://github.com/Coxibius/ASCII-GPT-Engine/releases).
-
+## 💾 Model Downloads
+Pre-trained models (.zip) are available in the [Releases Section](https://github.com/Coxibius/ASCII-GPT-Engine/releases).
