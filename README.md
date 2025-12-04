@@ -42,5 +42,5 @@ Este proyecto documenta la evolución de un modelo de lenguaje entrenado para "d
 
 \## 💾 Descarga de Modelos
 
-Los modelos entrenados (.zip) están disponibles en la sección \[Releases](https://github.com/TU\_USUARIO/ASCII-GPT-Engine/releases).
+Los modelos entrenados (.zip) están disponibles en la sección \[Releases](https://github.com/Coxibius/ASCII-GPT-Engine/releases).
 
