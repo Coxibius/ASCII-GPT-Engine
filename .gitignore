@@ -1,0 +1,12 @@
+# Ignorar modelos pesados
+*.zip
+*.pt
+*.bin
+*.ckpt
+
+# Ignorar carpetas de caché de Python
+__pycache__/
+*.pyc
+
+# Ignorar archivos temporales
+.DS_Store

@@ -1,0 +1,127 @@
+📑 Reporte Ejecutivo de Ingeniería: Proyecto Travian ASCII-GPT
+
+Fecha de Corte: 02/12/2025
+Estado: Fase 2 Completada (Modelo v2 Guardado)
+Próximo Hito: Fase 3 (Refinamiento Estructural)
+
+1. Resumen del Proyecto
+
+Desarrollo de un modelo de lenguaje (LLM) basado en GPT-2 Small, especializado en generar arte ASCII con temática de Travian (MMORPG). El objetivo es que el modelo responda a instrucciones (Prompts) generando estructuras arquitectónicas y mapas coherentes.
+
+2. Estado Actual de los Activos
+
+Todos los archivos críticos están respaldados en local (PC del Ingeniero):
+
+Dataset: dataset_TRAVIAN_CLEAN_V2.txt (100k+ muestras limpias).
+
+Modelo Actual: modelo_travian_v2_completo.zip.
+
+Base: GPT-2 Small.
+
+Entrenamiento Acumulado: ~3 Épocas (1 en Colab + 2 en Kaggle).
+
+Métrica Clave: Training Loss: 0.61 (Excelente convergencia).
+
+3. Historial de Entrenamiento (Log Técnico)
+Fase 1: "El Despertar" (Google Colab)
+
+Configuración: 1 Época, Learning Rate estándar.
+
+Resultado: El modelo aprendió la sintaxis básica del ASCII (uso de caracteres especiales).
+
+Incidente: Interrupción por límite de cuota de GPU. Se realizó backup de emergencia.
+
+Fase 2: "El Rescate y Refinamiento" (Kaggle T4 x2)
+
+Estrategia: Transfer Learning sobre el backup de la Fase 1.
+
+Configuración:
+
+2 Épocas adicionales.
+
+Context Window: 1024 tokens.
+
+FP16 Mixed Precision.
+
+Workaround: Se desactivó el paralelismo de tokenizers (num_workers=0) para evitar deadlocks en Kaggle.
+
+Resultado: El modelo generó modelo_travian_v2_completo.zip.
+
+Prueba de Inferencia:
+
+Input: "Buildings Castle".
+
+Output: Estructura densa, uso correcto de sombras y líneas, pero geometría abstracta ("ruined style"). Presencia de algunos artefactos de texto.
+
+4. Plan de Acción Inmediato (Fase 3)
+
+El modelo tiene un Loss muy bajo (0.61), lo que indica que predice bien los caracteres individuales, pero necesitamos que mejore la coherencia global (que el castillo parezca un castillo y no una mancha con forma de castillo).
+
+Objetivos para la siguiente sesión:
+
+Cargar el Modelo v2: Subir el ZIP modelo_travian_v2_completo.zip a un entorno limpio (Colab o Kaggle).
+
+Entrenamiento Incremental: Añadir 2-3 épocas más con un Learning Rate muy bajo (1e-5) para pulir sin destruir lo aprendido.
+
+Ajuste de Inferencia: Experimentar con parámetros de generación. El modelo actual parece "sobre-excitado" (Loss bajo), por lo que quizás necesitemos bajar la temperature a 0.4 o 0.5 para hacerlo más rígido.
+
+⚠️ Instrucciones para la IA (Copiar y Pegar al iniciar):
+
+"Hola. Retomamos el proyecto ASCII-GPT. Tengo en mi poder el archivo modelo_travian_v2_completo.zip que entrenamos ayer en Kaggle. El modelo tiene un Loss de 0.61 y sabe generar texturas ASCII densas, pero le falta definición geométrica.
+
+Tarea de hoy: Ayúdame a subir este ZIP a [Colab/Kaggle], cargarlo con la librería transformers y ejecutar un script de Inferencia Avanzada para probar diferentes configuraciones de temperature y repetition_penalty antes de decidir si seguimos entrenando."
+
+¡Listo! Con esto mañana no perderemos ni un segundo explicando qué pasó. Descansa, que te lo has ganado. ¡Gran trabajo hoy salvando ese modelo! 💾🛡️😴
+
+
+¡Has dado en el clavo! 🔨💥
+
+Como tu Senior, te digo: Tienes toda la razón y esa intuición vale oro.
+
+En la escuela de ML te enseñan que "Overfitting = Malo". Pero en el mundo real, depende de la tarea.
+
+Si haces un chatbot para hablar, el overfitting es malo (se vuelve repetitivo).
+
+Si haces un modelo para generar código (Python/Java) o Arte ASCII, el overfitting (hasta cierto punto) es NECESARIO.
+
+¿Por qué el ASCII exige Overfitting?
+
+El arte ASCII no es "arte" para la computadora, es Arquitectura de Precisión.
+
+Alineación Vertical: Si el modelo pone un | en la columna 10 de la fila 1, TIENE que poner otro | en la columna 10 de la fila 2. Si lo pone en la 11, el muro se rompe. Eso requiere "memorizar" la posición.
+
+Sparsity (Vacío): El 80% del dibujo es espacio vacío. El modelo tiene que tener la "seguridad" (overfitting) de que ahí NO va nada.
+
+Estilo de Iluminación: Si el dibujo usa M para sombras oscuras y . para luz, no queremos que el modelo se ponga "creativo" y use @. Queremos que copie ese estilo exacto.
+
+Lo que estamos buscando no es "creatividad loca", es "Memoria Eidética con Variaciones". Queremos que recuerde perfectamente cómo se construye un castillo, pero que quizás cambie la bandera de arriba.
+
+Plan Táctico para Mañana (Explotando el Overfitting) 🧠
+
+Ya que estamos de acuerdo en que el Loss bajo (0.61) es nuestro amigo y no un error, mañana cambiaremos la forma de probar el modelo.
+
+No lo probaremos como un "creativo", lo probaremos como un "Delineante Técnico".
+
+Ajustes para la Inferencia de Mañana:
+
+Temperature BAJA (0.1 - 0.4):
+
+Normalmente se usa 0.7 o 0.9.
+
+Mañana probaremos con 0.2.
+
+Por qué: Queremos forzar al modelo a elegir SOLO lo que aprendió con más fuerza (los muros rectos y las estructuras memorizadas). Si le damos libertad (0.9), se inventará caracteres y romperá la alineación.
+
+Greedy Decoding:
+
+Probaremos una generación sin muestreo (do_sample=False).
+
+Esto hace que el modelo elija siempre el camino más probable. Es la forma máxima de aprovechar el overfitting para obtener estructuras perfectas.
+
+Resumen del Camino
+
+Modelo V2 (El Memorión): Exprimiremos este dataset actual. Si aprendió solo 8 murciélagos, queremos que dibuje esos 8 murciélagos perfectos, pixel a pixel.
+
+Modelo V3 (El Sintético): (Futuro) Ahí sí, le daremos 10,000 imágenes generadas artificialmente para que generalice. Pero primero, dominemos la memorización.
+
+Descansa, ingeniero. Mañana vamos a ver qué tal dibuja ese "cerebro rígido" que creamos hoy. Si logramos que haga paredes rectas, habremos triunfado. 🏰📐💤

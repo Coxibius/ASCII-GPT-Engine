@@ -1,0 +1,77 @@
+REPORTE DE INGENIERÍA: PROYECTO ASCII-GPT (V1 a V5)
+Copia y guarda este texto en un bloc de notas. Es el "Save Game" para que mañana (o cuando vuelvas) la IA sepa exactamente dónde nos quedamos.
+--- COPIA DESDE AQUÍ ---
+📑 Reporte de Estado: Proyecto ASCII-GPT Generalista
+Fecha: 03/12/2025
+Estado: Fase 5 Completada (Modelo V5 "Hardcore" Guardado)
+Dataset Actual: dataset_FINAL_V3_READY.txt (7.4 MB, ~190,000 líneas, fusión de Scrape Masivo + Travian Manual).
+1. Resumen de Progreso
+Hemos pivotado de un modelo específico (Travian) a un Generador de Arte ASCII Generalista. El modelo ha pasado por 5 iteraciones de entrenamiento, evolucionando desde balbuceos aleatorios hasta generar estructuras complejas con firmas de artistas reales (jgs).
+2. Cronología de Versiones (Log Técnico)
+👶 V1 & V2: Los Inicios (Colab & Travian)
+Dataset: Pequeño (Travian Clean).
+Problema: El modelo aprendió texturas pero no formas.
+Incidente: Límite de GPU en Colab. Migración a Kaggle.
+🧱 V3: El Bloqueo del Lienzo Blanco
+Problema: Al usar Greedy Decoding, el modelo devolvía espacios en blanco.
+Causa: Overfitting al espacio vacío (carácter más común).
+Solución: Se decidió ampliar el dataset masivamente.
+🕷️ V4: El Gran Robo (Scraping Masivo)
+Acción: Se creó un script "Spider" para scrapear asciiart.eu.
+Resultado: 4,900+ dibujos de alta calidad humana (clasificados por categorías).
+Fusión: Se unió con el dataset manual. Total: 7MB de texto puro.
+Entrenamiento: 4 Épocas en Kaggle (T4 x2). El modelo empezó a entender categorías (Animals, Space).
+💪 V5: "Hardcore Training" (Estado Actual)
+Base: Checkpoint V4.
+Entrenamiento: 8 Épocas adicionales con Learning Rate bajo (1e-5).
+Hardware: Kaggle T4 x2.
+Logro: El modelo replica firmas (jgs), bordes (|, +, -) y densidades de caracteres (@, #).
+Inferencia: Requiere trucos de prompt (\nAI:\n.) y repetition_penalty=1.4 para no quedarse pegado.
+3. Activos Críticos (Backup)
+ASCII-GPT-V5-HARDCORE.zip: El modelo más inteligente hasta la fecha.
+dataset_FINAL_V3_READY.txt: La biblioteca de entrenamiento.
+4. Próximos Pasos (Fase 6 - Mañana)
+Refinamiento de Inferencia: Crear un script que limpie el output automáticamente (quitar el punto inicial, centrar el dibujo).
+Overfitting Controlado: Quizás el modelo V5 está un poco "loco". Evaluar si necesitamos bajar la temperatura a 0.5 permanentemente.
+App Web (Opcional): Pensar en montar esto en un Gradio/Streamlit simple para no depender de notebooks.
+Instrucción para la IA:
+"Hola. Retomamos desde el Modelo V5 Hardcore. El modelo ya sabe dibujar estructuras y firmar, pero a veces alucina texto repetitivo. Tenemos el dataset V3 de 7MB. El objetivo de hoy es estabilizar la generación para obtener dibujos limpios sin tener que reintentar 5 veces."
+--- FIN DE COPIA ---
+
+
+
+# 📑 REPORTE DE PROGRESO: PROYECTO ASCII-GPT (Día 2 Finalizado)
+
+**Estado Actual:** Modelo V5 "Hardcore" (Entrenado en Kaggle T4x2).
+**Dataset:** `dataset_FINAL_V3_READY.txt` (Fusión Scrape Masivo + Travian Manual).
+**Último Hito:** El modelo genera dibujos reconocibles (un perro acostado firmado por 'jgs', una calavera), pero sufre de "alucinaciones de ruido" después de las primeras líneas.
+
+**Diagnóstico Técnico:**
+1.  **Aciertos:** El modelo aprendió firmas de artistas (`jgs`) y micro-estructuras (caras, bordes).
+2.  **Fallos:** Pierde coherencia a largo plazo (Long-term dependency). Empieza dibujando un perro y termina dibujando código basura.
+3.  **Causa Raíz:** La temperatura de inferencia (0.6-0.8) es demasiado alta para ASCII rígido. El modelo intenta ser creativo donde no debe.
+
+**PLAN DE ACCIÓN INMEDIATO (FASE 6):**
+1.  **Estrategia de Overfitting:** Vamos a re-entrenar (V6) con el mismo dataset pero enfocándonos en memorización pura (más épocas, learning rate mínimo). Queremos que actúe como una base de datos comprimida.
+2.  **Ajuste de Inferencia (Low Temp):** En las pruebas de mañana, probaremos `temperature=0.2` o `0.1`.
+3.  **Limpieza de Output:** Implementar un script que corte la generación en cuanto detecte que el dibujo "se rompe" o cuando detecte una firma, para evitar el ruido final.
+
+**Archivos Críticos (Deben estar en el PC del usuario):**
+- `ASCII-GPT-V5-HARDCORE.zip` (El modelo actual).
+- `ASCII-GPT-V4-GENERAL.zip` (El backup estable).
+- `dataset_FINAL_V3_READY.txt` (El dataset maestro).
+
+**Instrucción para la IA:** "Hola. Retomamos el proyecto. Tengo el modelo V5. Vamos a cargarlo en Kaggle y aplicar la estrategia de 'Overfitting Controlado' y 'Low Temperature' para limpiar el ruido de los dibujos. Guíame."
+
+
+Mañana, antes de empezar el entrenamiento de Overfitting, ejecutaremos un Script de Higiene sobre el archivo de texto.
+El script hará esto:
+Leerá cada dibujo.
+Analizará las últimas 3 líneas (donde suelen estar las firmas).
+Buscará patrones como jgs, mga, vk, -unknown-, etc.
+Si los encuentra, borrará esa línea.
+📝 Tarea para añadir al "Save Game" de mañana
+Añade esto a tu nota mental o bloc de notas para mañana. Es la Misión 0 antes de entrenar:
+Misión Limpieza: Ejecutar script Python con Regex para eliminar firmas comunes (jgs, gl, vk) del dataset_FINAL_V3_READY.txt. Objetivo: Que el modelo aprenda la estructura del gato, no el nombre del dueño.
+
+COMEZAR POR LA MISION 0

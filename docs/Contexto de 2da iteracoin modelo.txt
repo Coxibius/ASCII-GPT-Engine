@@ -1,0 +1,56 @@
+📑 Reporte de Estado: Proyecto ASCII-GPT (Travian Edition)
+Fecha: 2 de Diciembre, 2025
+Plataforma Actual: Kaggle (2x T4 GPU)
+Estado: 🟢 Entrenando (Fase 2 - Refinamiento)
+1. Resumen Ejecutivo
+Estamos desarrollando un Modelo de Lenguaje (LLM) especializado en generar arte ASCII con temática de Travian/MMORPG. El proyecto utiliza un modelo GPT-2 Small pre-entrenado, sometido a un proceso de Fine-Tuning (ajuste fino).
+Actualmente, hemos superado la fase inicial de aprendizaje sintáctico ("balbuceo") y estamos ejecutando una fase de Transferencia de Aprendizaje para mejorar la coherencia geométrica y estructural de los dibujos.
+2. La Odisea: ¿Cómo llegamos aquí?
+📉 Fase 0: Preparación de Datos
+Logro: Limpieza exitosa de un dataset ruidoso.
+Resultado: dataset_TRAVIAN_CLEAN_V2.txt. 100k+ ejemplos filtrados por densidad y longitud.
+Hito: Se eliminó el "ruido" visual para que el modelo no aprendiera basura.
+🧪 Fase 1: El Primer Entrenamiento (Google Colab)
+Configuración: 1 Época, max_length=1024.
+Resultado: Training Loss bajó de 1.35 a ~1.20.
+Estado del Modelo: El modelo aprendió los caracteres correctos (/, \, |, _) y la sintaxis básica, pero carecía de "memoria espacial". Los edificios salían torcidos o con bucles infinitos.
+Incidente: Al intentar escalar el entrenamiento, Google Colab limitó el uso de GPU.
+Acción Crítica: Se realizó un backup de emergencia en Google Drive (Backup_Modelo_Travian_V1).
+🔄 Fase 2: Migración y Recuperación (Kaggle)
+Desafío: Mover el entorno a Kaggle para aprovechar las 12 horas de sesión continua.
+Obstáculos Superados:
+Diferencias en sistemas de archivos (/content/drive vs /kaggle/input).
+Errores de dependencias (pip install con internet apagado).
+Crisis del Backup: Kaggle no encontraba el config.json debido a una estructura de carpetas anidadas ("Efecto Matrioska"). Se solucionó con un script de búsqueda recursiva.
+Cuello de Botella: La carga de datos con num_workers=2 causaba deadlocks. Se optimizó a num_workers=0.
+3. Entrenamiento en Curso: Especificaciones Técnicas
+Lo que se está ejecutando ahora mismo en la consola no es un entrenamiento desde cero, es un Refinamiento (Fine-Tuning v2) sobre el modelo rescatado de la Fase 1.
+Parámetro	Valor	Justificación
+Modelo Base	Backup_Modelo_Travian_V1	Aprovechamos lo aprendido ayer (3.5 horas de cómputo).
+Épocas	2	Ajustado por limitaciones de tiempo (Kaggle 12h).
+Context Window	1024 tokens	Necesario para dibujos grandes (castillos, mapas).
+Precision	fp16 (Mixed Precision)	Acelera el cálculo en las T4 GPUs.
+Learning Rate	3e-5	Bajo para refinar detalles sin "romper" el conocimiento previo.
+Batch Size	4 (Acumulación x4 = 16)	Optimizado para no desbordar la VRAM.
+Velocidad	~0.18 - 0.20 it/s	Lento debido a la complejidad cuadrática de la atención en secuencias largas.
+Tiempo Estimado	~9 Horas	Finalizará dentro de la ventana de sesión segura.
+4. ¿Qué esperamos obtener? (Expectativas)
+Al finalizar estas 9 horas de entrenamiento, esperamos evolucionar de un "Balbuceador ASCII" a un "Arquitecto Novato".
+A. Mejoras Estructurales
+El objetivo principal de estas 2 épocas adicionales es mejorar las Long-Range Dependencies (Dependencias de largo alcance).
+Antes: El modelo olvidaba dónde empezaba una pared hace 3 líneas, resultando en edificios torcidos.
+Esperado: El modelo debería alinear mejor las paredes verticales (|) y cerrar los techos (/ y \) con mayor precisión.
+B. Comportamiento del Loss
+No esperamos que el Loss baje drásticamente (ej. a 0.5).
+Esperamos una estabilización alrededor de 1.0 - 1.1.
+Nota: En ASCII art, un Loss muy bajo puede significar que el modelo está memorizando espacios en blanco. Un Loss estable indica que está aprendiendo la estructura visual.
+C. Inferencia
+Una vez termine, el modelo será capaz de responder a prompts complejos como:
+"Dibuja un ASCII art de buildings castle"
+"Dibuja un ASCII art de un mapa"
+Generando estructuras reconocibles, aunque probablemente aún requiera jugar con la temperature (0.6 - 0.7) para obtener los mejores resultados.
+5. Próximos Pasos (Post-Entrenamiento)
+Descarga Crítica: Descargar el archivo modelo_travian_v2_completo.zip inmediatamente al terminar.
+Pruebas de Inferencia: Ejecutar el script de generación ajustando repetition_penalty para evitar bucles.
+Deploy (Futuro): Si el modelo es bueno, el siguiente paso sería subirlo al Hugging Face Hub para usarlo desde cualquier lugar sin gastar GPU propia.
+Estado Final: 🤞 Cruzando los dedos para que la sesión de Kaggle no se desconecte en las próximas 9 horas. ¡El código está sólido!

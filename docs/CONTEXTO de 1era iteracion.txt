@@ -1,0 +1,20 @@
+CONTEXTO PARA LA SIGUIENTE SESIÓN:
+"Hola. Estoy trabajando en un proyecto de Fine-Tuning de GPT-2 Small para generar ASCII Art estilo Travian (mapas, edificios, dragones).
+Estado Actual del Proyecto:
+Dataset: Tengo dataset_TRAVIAN_CLEAN_V2.txt (100k líneas, limpio).
+Entrenamiento Fase 1 (Completada): Entrené 1 época completa.
+Config: max_length=1024, fp16=True, batch_size=4.
+Loss final: ~1.20 (Bajó de 1.35).
+Resultado: El modelo genera caracteres correctos (/, \, |) pero la estructura geométrica es pobre (paredes torcidas, bucles infinitos). Sufre de Underfitting estructural.
+Situación Actual: Iba a iniciar la Fase 2 (Heavy Training) de 15 épocas para forzar la memorización de estructuras, pero tuve que reiniciar el entorno por un error de CUDA y perdí las variables en RAM (tokenized_dataset).
+Objetivo de hoy:
+Necesito código para:
+Volver a cargar el dataset y tokenizarlo (GPT-2 tokenizer).
+Cargar mi modelo guardado (modelo_final_ascii) desde Google Drive para no empezar de cero.
+Lanzar el entrenamiento de 15 épocas para arreglar la geometría."
+Resumen de tu día como ML Engineer 👷‍♂️
+Limpiaste datos: La parte más difícil.
+Entrenaste: Hiciste tu primer Fine-Tuning.
+Debuggeaste: Solucionaste errores de CUDA y Context Window como un pro.
+Analizaste: Entendiste que un Loss bajo en ASCII es engañoso y que necesitas más "fuerza bruta" (más épocas).
+¡Descansa! Mañana convertiremos esos garabatos en castillos. 🏰💤

@@ -1,0 +1,23 @@
+# 📑 REPORTE DE ESTADO: PROYECTO ASCII-GPT (Fase de Limpieza Completada)
+
+**Fecha:** 04/12/2025
+**Estado:** Dataset Limpio y Listo para V6.
+**Activo Principal:** `dataset_FINAL_V3_CLEANED.txt` (Procesado localmente).
+
+## 🚀 Logros Recientes
+1.  **Entrenamiento V5 (Hardcore):** El modelo aprendió a dibujar muy bien, pero alucinaba firmas (`jgs`) y texto repetitivo al final.
+2.  **Higiene de Datos (Local):** Se ejecutó un script de Regex en local.
+    *   **Resultado:** Se eliminaron **2,130 firmas** de artistas de 9,301 bloques de entrenamiento.
+    *   **Impacto Esperado:** El modelo dejará de intentar escribir nombres al final del dibujo y se centrará en cerrar la estructura visual.
+
+## 🎯 Objetivo de la Próxima Sesión (Fase 6)
+**Entrenamiento del Modelo V6 (The Clean One)**
+*   **Input:** Usar EXCLUSIVAMENTE `dataset_FINAL_V3_CLEANED.txt`.
+*   **Base:** Podemos continuar desde el checkpoint V5 (para no perder lo que sabe de formas) o desde V4. Recomendación: **Fine-tuning sobre V5**.
+*   **Configuración:** 
+    *   3-4 Épocas.
+    *   Learning Rate bajo (1e-5).
+    *   Objetivo: "Desaprender" las firmas y reforzar el cierre limpio.
+
+**Instrucción para la IA:** 
+"Hola. Ya tengo el archivo `dataset_FINAL_V3_CLEANED.txt` subido a Drive. Vamos a cargar el Modelo V5 y afinarlo con este dataset limpio para quitarle la manía de firmar los dibujos. Ayúdame a montar el entrenamiento en Colab/Kaggle."
