@@ -1,0 +1,58 @@
+📑 Reporte Ejecutivo de Ingeniería: Proyecto ASCII-GPT
+Fecha de Corte: 04/12/2025 (Cierre de Jornada)
+Estado: Fase 6 Completada (Modelo V6 "Clean" Entrenado y Guardado)
+Próximo Hito: Fase 7 (Benchmarking V5 vs V6 y Despliegue)
+1. Resumen de Logros del Día
+Se completó exitosamente el ciclo de Saneamiento de Datos y Reentrenamiento. El objetivo principal era eliminar el sesgo detectado en la versión V5, donde el modelo replicaba firmas de artistas (jgs, vk) y generaba ruido textual al final de los dibujos. Además, se profesionalizó la infraestructura del proyecto (MLOps).
+2. Detalles Técnicos (Changelog)
+🛠️ Ingeniería de Datos (Data Sanitization)
+Problema: El dataset V3 contenía miles de firmas que causaban alucinaciones de texto.
+Solución: Ejecución local de signature_sanitizer.py (script propio con Regex).
+Resultado: Se eliminaron 2,130 firmas (~23% de los finales de bloque).
+Nuevo Activo: dataset_v3_combined_clean.txt.
+🧠 Entrenamiento del Modelo V6 ("The Clean One")
+Base: Ascii-art-v5 (Transfer Learning).
+Configuración:
+Hardware: Kaggle GPU T4 x2.
+Duración: ~8 Horas (25 Épocas).
+Hiperparámetros: Learning Rate 1e-5 (Bajo/Estable), Batch Size 8.
+Métricas Finales: Loss final oscilando entre 0.98 y 1.00.
+Interpretación: El Loss no bajó a 0.2 (como en V3) porque el modelo ya no memoriza firmas estáticas, sino que está aprendiendo la estructura general sin el "muleta" de la firma. Esto sugiere una mejor generalización.
+⚙️ Infraestructura y Repositorio (GitHub)
+Se reestructuró el repositorio ASCII-GPT-Engine bajo estándares internacionales.
+Documentación: README.md en Inglés Técnico, estructura de carpetas (notebooks, scripts, docs).
+Control de Versiones: Implementación de .gitignore y uso de GitHub Releases para distribuir los binarios pesados (V1, V4, V5).
+3. Incidentes y Resoluciones
+Incidente: Interfaz de Kaggle congelada al finalizar el entrenamiento (mouse inactivo).
+Resolución: Se logró recuperar el archivo ASCII-GPT-V6-CLEAN.zip mediante descarga directa del navegador (lenta pero segura) y técnicas de navegación por teclado, evitando la pérdida de 8 horas de cómputo.
+4. Plan de Acción Inmediato (Fase 7 - Mañana)
+El modelo V6 está guardado, pero aún no sabemos "cómo dibuja".
+Pruebas de Inferencia (CPU): Cargar V6 en un entorno gratuito y ejecutar la matriz de prompts (Animals Cat, Buildings Castle).
+KPI de Éxito: Ausencia total de firmas jgs/vk y cierre limpio de las figuras.
+Ajuste de Temperatura: Determinar si el modelo limpio necesita una temperatura más alta (0.7) o más baja (0.2) ahora que no tiene firmas.
+Demo Web (Opcional): Si el V6 es exitoso, explorar la creación de una interfaz simple (Gradio) para compartirlo.
+⚠️ Instrucciones para la IA (Copiar y Pegar mañana):
+"Hola. Retomamos el proyecto ASCII-GPT. Ayer completamos el entrenamiento del Modelo V6 (Clean). Tengo el archivo ASCII-GPT-V6-CLEAN.zip seguro en mi PC y en Drive.
+Este modelo fue entrenado con el dataset sin firmas para corregir las alucinaciones de texto del V5.
+Tarea de hoy: Ayúdame a configurar un notebook de Inferencia en CPU (para no gastar cuota) para someter al V6 a una batería de pruebas. Queremos verificar si dejó de firmar los dibujos y si cierra bien las estructuras."
+
+
+# 💀 POST-MORTEM: V6 "The Clean One"
+
+**Resultado:** FALLO PARCIAL.
+- Aunque se usó un dataset limpio, el entrenamiento se hizo sobre la base del V5 (que ya estaba contaminado).
+- **Consecuencia:** El modelo retuvo "conocimiento fantasma" (firmas, textos raros) que aparecían incluso con filtros de regex.
+
+**Lección Aprendida:**
+"No puedes limpiar un modelo sobre-entrenado solo con Fine-Tuning suave. Se requiere un 'Hard Reset'."
+
+**🎯 PLAN PARA V7 (La Esperanza):**
+1.  **Modelo Base:** GPT-2 Small (Fresh / Sin entrenar en ASCII previo).
+2.  **Dataset:** `dataset_v3_combined_clean.txt` (El que limpiamos hoy con el script).
+3.  **Estrategia:** Entrenamiento desde cero (Training from Scratch / Full Fine-tuning).
+    - Esto garantizará que el modelo NUNCA haya visto una firma de 'jgs'.
+4.  **Hardware:** Esperar al reset de cuota de Kaggle/Colab.
+
+
+NUEVA HIPÓTESIS (V7 MATRIX):
+Incorporar "Line Tokens" (numeración de líneas) en el dataset de entrenamiento para forzar al modelo a entender la dimensión vertical y la longitud del dibujo. Esto debería solucionar el problema de las espadas torcidas y los dibujos infinitos.
